@@ -1,5 +1,5 @@
 fn main() {
-    let mut fibonacci: [i32; 2] = [1, 2];
+    let mut fibonacci: [i32; 2] = [1, 1];
     let mut inum = String::new();
 
     std::io::stdin()

@@ -1,20 +1,37 @@
 fn main() {
-    let mut fibonacci: [i32; 2] = [1, 1];
-    let mut inum = String::new();
+    let num = read_num();
 
+    println!("The result_my is {}", fibonacci_me(num));
+    println!("The result codegeex is {}", fibonacci_codegeex(num));
+}
+
+fn fibonacci_codegeex(num: usize) -> usize {
+    if num <= 2 {
+        return 1;
+    }
+    let mut fibonacci: [usize; 2] = [1, 1];
+    for i in 2..num {
+        fibonacci[i % 2] = fibonacci[0] + fibonacci[1];
+    }
+    fibonacci[(num - 1) % 2]
+}
+
+// 帮我完成从命令行中读入数字的函数，并取一个恰当的名字
+fn read_num() -> usize {
+    let mut inum = String::new();
     std::io::stdin()
         .read_line(&mut inum)
         .expect("Failed to read");
-    let num: usize = inum.trim().parse().expect("Failed to parse number {inum}");
+    inum.trim().parse().expect("Faile")
+}
 
+fn fibonacci_me(num: usize) -> usize {
+    let mut fibonacci: [usize; 2] = [1, 1];
     if num <= 2 {
-        let result = fibonacci[num - 1];
-        println!("The result is {result}");
-        return;
+        return fibonacci[num - 1];
     }
     for i in 2..num {
         fibonacci[i % 2] = fibonacci[0] + fibonacci[1];
     }
-    let result = fibonacci[(num - 1) % 2];
-    println!("The result is {result}");
+    fibonacci[(num - 1) % 2]
 }

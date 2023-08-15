@@ -23,11 +23,18 @@ enum Coin {
     Quarter(UsState),
 }
 
+enum MyEnum {
+    Foo,
+    Bar,
+}
+
 fn main() {
     let coin = Coin::Quarter(UsState::Alabma);
     _math();
     value_in_cents(coin);
     if_let();
+    _matches();
+    _variable_masking();
 }
 
 fn _math() -> u8 {
@@ -77,4 +84,24 @@ fn if_let() {
     if let Some(3) = v {
         println!("three");
     };
+}
+
+fn _matches() {
+    let v = vec![MyEnum::Foo, MyEnum::Bar, MyEnum::Foo];
+    // BAD v.iter().filter(|x| x == MyEnum::Foo);
+    let _ = v.iter().filter(|x| matches!(x, MyEnum::Foo));
+    let foo = 'f';
+    let bar = Some(4);
+    assert!(matches!(foo, 'A'..='Z'|'a'..='z'));
+    assert!(matches!(bar, Some(x) if x > 2));
+}
+
+fn _variable_masking() {
+    // BAD Use
+    let age = Some(3);
+    println!("{:?}", age);
+    if let Some(age) = age {
+        println!("{}", age);
+    }
+    println!("{:?}", age);
 }

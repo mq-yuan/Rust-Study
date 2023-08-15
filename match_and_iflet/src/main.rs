@@ -35,6 +35,7 @@ fn main() {
     if_let();
     _matches();
     _variable_masking();
+    _while_let();
 }
 
 fn _math() -> u8 {
@@ -104,4 +105,14 @@ fn _variable_masking() {
         println!("{}", age);
     }
     println!("{:?}", age);
+}
+
+fn _while_let() {
+    let mut stack = Vec::new();
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+    while let Some(p) = stack.pop() {
+        println!("{}", p);
+    }
 }

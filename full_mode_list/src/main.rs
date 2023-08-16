@@ -31,6 +31,7 @@ fn main() {
     _deconstruction_struct();
     _deconstruction_enum();
     _deconstruct_nesting();
+    _deconstruct_array();
 }
 
 fn _liter_value() {
@@ -84,6 +85,7 @@ fn _deconstruction_struct() {
     let p = Point { x: 2, y: 5 };
     let Point { x: a, y: b } = p;
     let Point { x, y } = p;
+    let ((_feet, _inches), Point { x: _x, y: _y }) = ((3, 10), Point { x: 2, y: 5 });
     assert_eq!(2, a);
     assert_eq!(5, b);
     assert_eq!(2, x);
@@ -121,4 +123,22 @@ fn _deconstruct_nesting() {
             println!("Color is h:{}, s:{}, v:{}", h, s, v);
         }
     };
+}
+
+fn _deconstruct_array() {
+    let array: [u16; 2] = [12, 15];
+    let [x, y] = array;
+    assert_eq!(x, 12);
+    assert_eq!(y, 15);
+
+    let array: &[u16] = &[114, 115, 116];
+    if let [x, ..] = array {
+        assert_eq!(x, &114);
+    }
+    if let [.., y] = array {
+        assert_eq!(y, &116);
+    }
+    let arr: &[u16] = &[];
+    assert!(matches!(arr, [..]));
+    assert!(!matches!(arr, [_x, ..]));
 }

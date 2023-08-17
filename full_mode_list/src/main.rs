@@ -17,6 +17,10 @@ enum _Messages {
     ChangeColor(i32, i32, i32),
 }
 
+enum Hello {
+    World { id: i32 },
+}
+
 #[derive(Debug)]
 struct Point {
     x: i32,
@@ -32,6 +36,9 @@ fn main() {
     _deconstruction_enum();
     _deconstruct_nesting();
     _deconstruct_array();
+    _ignore_mode();
+    _match_guard();
+    _at_value();
 }
 
 fn _liter_value() {
@@ -141,4 +148,44 @@ fn _deconstruct_array() {
     let arr: &[u16] = &[];
     assert!(matches!(arr, [..]));
     assert!(!matches!(arr, [_x, ..]));
+}
+
+fn _ignore_mode() {
+    let s = Some(String::from("Hello"));
+
+    // ownership not move
+    if let Some(_) = s {
+        println!("found a string");
+    }
+
+    //ownership moved
+    if let Some(_s) = s {
+        println!("found a string");
+    }
+
+    // println("{}", s);
+}
+
+fn _match_guard() {
+    let x = Some(5);
+    let y = 10;
+    let f = true;
+    match x {
+        Some(x) if x == y => println!("Match, x = {}", y),
+        Some(4) | Some(3) | Some(5) if f => println!("true"),
+        _ => println!("Default x is {:?}", x),
+    }
+    println!("at the end: x = {:?}, y = {}", x, y);
+}
+
+fn _at_value() {
+    let msg = Hello::World { id: 5 };
+
+    match msg {
+        Hello::World {
+            id: idvalue @ 2..=5,
+        } => println!("Found id in range: {}", idvalue),
+        Hello::World { id: 10..=12 } => println!("Found id in other range"),
+        Hello::World { id } => println!("default id is {}", id),
+    }
 }
